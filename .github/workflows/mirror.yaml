@@ -13,6 +13,7 @@ jobs:
         uses: pixta-dev/repository-mirroring-action@v1
         with:
           target_repo_url:
-            git@isrc.iscas.ac.cn:summer2021/211080750.git
+            git@gitlab.summer-ospp.ac.cn:summer2021/211080750.git
+
           ssh_private_key:
             ${{ secrets.SSH_KEY }}
