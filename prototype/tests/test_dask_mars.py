@@ -47,15 +47,20 @@ def test_partitioned_dataframe():
     df = df[df["col2"] > col2_mean]
 
     dask_res = df.compute()
-    assert_frame_equal(dask_res, df.compute(scheduler=mars_scheduler))
-    assert_frame_equal(dask_res, convert_dask_collection(df).execute().fetch())
+    assert_frame_equal(dask_res, df.compute(scheduler=mars_scheduler), check_index_type=False)
+    assert_frame_equal(dask_res, convert_dask_collection(df).execute().fetch(), check_index_type=False)
 
 
 def test_unpartitioned_dataframe():
     from dask import dataframe as dd
     from pandas._testing import assert_frame_equal
+    import pandas as pd
+    from sklearn.datasets import load_boston
 
-    df = dd.read_csv(r"D:\summer2021\daskMars\playground\boston_housing_data.csv")
+    boston = load_boston()
+    pd.DataFrame(boston.data, columns=boston['feature_names']).to_csv("./boston_housing_data.csv")
+
+    df = dd.read_csv(r"./boston_housing_data.csv")
     df["CRIM"] = df["CRIM"] / 2
 
     dask_res = df.compute()
