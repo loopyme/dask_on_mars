@@ -1,4 +1,4 @@
-from dask import is_dask_collection, optimize, bag
+from dask import is_dask_collection, optimize
 
 from prototype.scheduler import mars_dask_get
 from prototype.utils import reduce
@@ -15,7 +15,7 @@ def convert_dask_collection(dc):
     if isinstance(first_key, str):
         key = [first_key]
     elif isinstance(first_key, tuple):
-        key = [i for i in dsk.keys() if i[0] == first_key[0]]
+        key = sorted([i for i in dsk.keys() if i[0] == first_key[0]], key=lambda x: x[1])
     else:
         raise Exception(f"Weired key type:{type(first_key)}")
 
