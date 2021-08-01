@@ -1,0 +1,18 @@
+name: 'Mirror'
+
+on: [push, delete]
+
+jobs:
+
+  to_gitlab:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v1
+      - name: 'Mirror to gitlab'
+        uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url:
+            git@isrc.iscas.ac.cn:summer2021/211080750.git
+          ssh_private_key:
+            ${{ secrets.SSH_KEY }}
